@@ -1,6 +1,6 @@
 # WindowDirector
 
-A tiny macOS menu bar app that lists every open window, grouped by app — and lets you switch to, close, or quit them without the list going away.
+A tiny macOS menu bar app that lists every open window, grouped by app — and lets you switch to, close, or quit them.
 
 ## Features
 
