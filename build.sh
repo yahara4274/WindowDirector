@@ -29,6 +29,13 @@ swiftc -O -swift-version 5 -target "$(uname -m)-apple-macos26.0" main.swift -o "
 IDENTITY=$(security find-identity -v -p codesigning | awk -F'"' '/Apple Development/ {print $2; exit}')
 codesign --force --sign "${IDENTITY:--}" "$APP"
 
+# A revoked certificate makes macOS block the app as malware, so verify the signature and fall back to ad-hoc if it fails.
+if [ -n "$IDENTITY" ] && ! codesign --verify --strict "$APP" 2>/dev/null; then
+  echo "warning: '$IDENTITY' failed verification (revoked or invalid?); signing ad-hoc instead" >&2
+  IDENTITY=""
+  codesign --force --sign - "$APP"
+fi
+
 osascript -e 'quit app "WindowDirector"' 2>/dev/null || true
 sleep 1
 rm -rf "/Applications/${APP:?}"

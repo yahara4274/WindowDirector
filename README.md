@@ -26,6 +26,7 @@ cd WindowDirector
 
 - If you have an Apple Development certificate, the app is signed with it, so the Accessibility permission survives rebuilds.
 - Otherwise it is ad-hoc signed. In that case you'll need to re-enable the Accessibility permission after each rebuild.
+- If the certificate has been revoked, macOS would block the app as malware, so `build.sh` detects this and falls back to ad-hoc signing.
 
 ### Grant Accessibility permission
 
